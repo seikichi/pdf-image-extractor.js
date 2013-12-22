@@ -21,11 +21,7 @@ self.onmessage = function (event) {
   case 'extract':
     var pageNum = data.pageNum;
     extractor.extract(pageNum, function (images) {
-      var buffers = [];
-      for (var i = 0, len = images.length; i < len; ++i) {
-        buffers.push(images[i].data.buffer);
-      }
-      self.postMessage({ action: 'extract', images: images }, buffers);
+      self.postMessage({ action: 'extract', images: images });
     });
     break;
   }
