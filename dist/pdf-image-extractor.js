@@ -40238,23 +40238,23 @@ var JpegImage = (function jpegImage() {
 
   return constructor;
 })();
-var PDFXObjectImageExtractor = (function () {
-    function PDFXObjectImageExtractor(data) {
+var PDFImageExtractor = (function () {
+    function PDFImageExtractor(data) {
         this.data = data;
         this.manager = new LocalPdfManager(data);
     }
-    PDFXObjectImageExtractor.create = function (data, callback) {
-        var extractor = new PDFXObjectImageExtractor(data);
+    PDFImageExtractor.create = function (data, callback) {
+        var extractor = new PDFImageExtractor(data);
         extractor.loadDocument().then(function () {
             callback(extractor);
         });
     };
 
-    PDFXObjectImageExtractor.prototype.numPages = function () {
+    PDFImageExtractor.prototype.numPages = function () {
         return this.manager.pdfModel.numPages;
     };
 
-    PDFXObjectImageExtractor.prototype.extract = function (pageNum, callback) {
+    PDFImageExtractor.prototype.extract = function (pageNum, callback) {
         var _this = this;
         var images = [];
         var imagePromises = [];
@@ -40286,7 +40286,7 @@ var PDFXObjectImageExtractor = (function () {
         });
     };
 
-    PDFXObjectImageExtractor.prototype.decodeJpegStream = function (url) {
+    PDFImageExtractor.prototype.decodeJpegStream = function (url) {
         var xhr = new XMLHttpRequest();
         var promise = new Promise();
         xhr.open('GET', url);
@@ -40309,7 +40309,7 @@ var PDFXObjectImageExtractor = (function () {
         return promise;
     };
 
-    PDFXObjectImageExtractor.prototype.loadDocument = function () {
+    PDFImageExtractor.prototype.loadDocument = function () {
         var recoveryMode = false;
         var pdfManager = this.manager;
         var loadDocumentPromise = new Promise();
@@ -40353,15 +40353,19 @@ var PDFXObjectImageExtractor = (function () {
         }, parseFailure);
         return loadDocumentPromise;
     };
-    return PDFXObjectImageExtractor;
+    return PDFImageExtractor;
 })();
 
 
 if (typeof process === 'object' && typeof require === 'function') {
-    module['exports'] = PDFXObjectImageExtractor;
+    module['exports'] = PDFImageExtractor;
+} else if (typeof define === "function" && define.amd) {
+    define('pdf-image-extractor', [], function () {
+        return PDFImageExtractor;
+    });
 } else if (typeof window === 'object') {
-    window['PDFXObjectImageExtractor'] = PDFXObjectImageExtractor;
+    window['PDFImageExtractor'] = PDFImageExtractor;
 } else if (typeof importScripts === 'function') {
-    self['PDFXObjectImageExtractor'] = PDFXObjectImageExtractor;
+    self['PDFImageExtractor'] = PDFImageExtractor;
 }
 })();

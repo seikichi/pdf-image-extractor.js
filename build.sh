@@ -1,6 +1,6 @@
 #!/bin/bash
 
-tsc --noImplicitAny pdf-xobject-image-extractor.ts
+tsc --noImplicitAny pdf-image-extractor.ts
 
 cat <(echo '(function() { var PDFJS = {};') \
     pdf.js/src/shared/util.js \
@@ -30,8 +30,8 @@ cat <(echo '(function() { var PDFJS = {};') \
     pdf.js/src/core/jbig2.js \
     pdf.js/src/core/bidi.js \
     pdf.js/external/jpgjs/jpg.js \
-    pdf-xobject-image-extractor.js \
+    pdf-image-extractor.js \
     <(echo '})();') \
-    > dist/pdf-xobject-image-extractor.js
+    > dist/pdf-image-extractor.js
 
-uglifyjs < dist/pdf-xobject-image-extractor.js > dist/pdf-xobject-image-extractor.min.js
+uglifyjs < dist/pdf-image-extractor.js > dist/pdf-image-extractor.min.js

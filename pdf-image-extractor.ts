@@ -29,13 +29,13 @@ declare class LocalPdfManager {
   constructor(buffer: ArrayBuffer);
 }
 
-class PDFXObjectImageExtractor {
+class PDFImageExtractor {
   private manager: LocalPdfManager;
 
   static create(
     data: ArrayBuffer,
-    callback: (extractor: PDFXObjectImageExtractor) => void): void {
-      var extractor = new PDFXObjectImageExtractor(data);
+    callback: (extractor: PDFImageExtractor) => void): void {
+      var extractor = new PDFImageExtractor(data);
       extractor.loadDocument().then(() => {
         callback(extractor);
       });
@@ -155,11 +155,14 @@ declare var process: any;
 declare var require: any;
 declare var module: any;
 declare var self: Window;
+declare var define: any;
 
 if (typeof process === 'object' && typeof require === 'function') { // NODE
-  module['exports'] = PDFXObjectImageExtractor;
+  module['exports'] = PDFImageExtractor;
+} else if (typeof define === "function" && define.amd) { // AMD
+  define('pdf-image-extractor', <any>[], () => PDFImageExtractor);
 } else if (typeof window === 'object') { // WEB
-  window['PDFXObjectImageExtractor'] = PDFXObjectImageExtractor;
+  window['PDFImageExtractor'] = PDFImageExtractor;
 } else if (typeof importScripts === 'function') { // WORKER
-  self['PDFXObjectImageExtractor'] = PDFXObjectImageExtractor;
+  self['PDFImageExtractor'] = PDFImageExtractor;
 }

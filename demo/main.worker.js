@@ -1,4 +1,4 @@
-importScripts('../dist/pdf-xobject-image-extractor.min.js');
+importScripts('../dist/pdf-image-extractor.min.js');
 
 var extractor = null;
 
@@ -12,7 +12,7 @@ self.onmessage = function (event) {
     xhr.send();
 
     var buffer = xhr.response;
-    PDFXObjectImageExtractor.create(buffer, function (_extractor) {
+    PDFImageExtractor.create(buffer, function (_extractor) {
       extractor = _extractor;
       var numPages = extractor.numPages();
       self.postMessage({action: 'open', numPages: numPages});
